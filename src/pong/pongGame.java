@@ -24,6 +24,9 @@ public class pongGame
 	int playerScore = 0;
 	int aiScore = 0;
 	
+	float ballSpeed = 0.2f;
+	float aiSpeed = 0.3f;
+	
 	Random rnd = new Random();
 	
 	
@@ -54,9 +57,9 @@ public class pongGame
 	private void input()
 	{
 		if (Keyboard.isKeyDown(Keyboard.KEY_UP))
-			playerBat.setDY(-0.2);
+			playerBat.setDY(-0.3);
 		else if (Keyboard.isKeyDown(Keyboard.KEY_DOWN))
-			playerBat.setDY(0.2);
+			playerBat.setDY(0.3);
 		else
 			playerBat.setDY(0);
 	}
@@ -82,12 +85,14 @@ public class pongGame
 		
 		if (ball.intersects(playerBat))
 		{
-			ball.setDX(0.1);
+			ball.setDX(ballSpeed);
 			//ball.setDY(0.1);
+			ballSpeed += 0.025f;
+			System.out.println(ballSpeed);
 		}
 		if (ball.intersects(aiBat))
 		{
-			ball.setDX(-0.1);
+			ball.setDX(-ballSpeed);
 			//ball.setDY(-0.1);
 		}
 		
@@ -109,9 +114,9 @@ public class pongGame
 		
 		//AI Code
 		if (ball.getY() < (aiBat.getHeight()-20)/2+aiBat.getY() && ball.getDX() > 0)
-			aiBat.setDY(-0.2);
+			aiBat.setDY(-aiSpeed);
 		else if (ball.getY() > aiBat.getHeight()/2+aiBat.getY() && ball.getDX() > 0)
-			aiBat.setDY(0.2);
+			aiBat.setDY(aiSpeed);
 		else
 			aiBat.setDY(0);
 	}
@@ -131,10 +136,12 @@ public class pongGame
 
 	private void setupEntities()
 	{
+		ballSpeed = 0.2f;
+		aiSpeed = rnd.nextFloat()/2;
 		playerBat = new Bat(10, (SCREEN_HEIGHT/2 - 80 /2 ), 10, 80);
 		aiBat = new Bat(SCREEN_WIDTH-20, (SCREEN_HEIGHT/2 - 80 /2 ), 10, 80);
 		ball = new Ball((SCREEN_WIDTH/2-10/2), (SCREEN_HEIGHT/2-10/2),10,10);
-		ball.setDX(-0.1);
+		ball.setDX(-ballSpeed);
 		ball.setDY(rnd.nextFloat()/10);
 	}
 
